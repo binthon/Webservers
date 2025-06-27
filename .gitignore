@@ -1,0 +1,7 @@
+/venv
+/zadanie1/.env
+/zadanie1/instance
+/zadanie1/app/__pycache__
+/zadanie1/app/routes/__pycache__
+/zadanie1/app/forms/__pycache__
+/zadanie1/__pycache__
