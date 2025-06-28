@@ -1,15 +1,18 @@
 from celery import Celery
 from app import createApp, db
 from app.model import AsyncUser
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 flaskApp = createApp()
 
 
-celery = Celery(
+celery_app = Celery(
     "worker",
-    broker="redis://redis:6379/0",
-    backend="redis://redis:6379/0"
+    broker=os.getenv('REDIS_URL'),
+    backend=os.getenv('REDIS_URL'),
 )
 
 

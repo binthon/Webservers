@@ -1,9 +1,4 @@
 flask
-fastapi
-jinja2
-uvicorn[standard]
-gunicorn
-uwsgi
 celery
 redis
 sqlalchemy
