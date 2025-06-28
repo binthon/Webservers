@@ -2,7 +2,7 @@ from celery import Celery
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
-from app.model import AsyncUser, Base
+from app.model import AsyncUser
 import os
 
 load_dotenv()
