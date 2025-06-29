@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-    <title>Formularz synchroniczny</title>
-    <link rel="stylesheet" href="/static/style.css">
-
+  <meta charset="UTF-8">
+  <title>Formularz Sync</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  <div class="form-box">
     <h1>Formularz Sync</h1>
-    {% if success %}
-        <p>Dane zostały zapisane!</p>
-        <p>Imię: {{ name }}</p>
-        <p>Email: {{ email }}</p>
+
+    <form method="POST">
+  {{ form.hidden_tag() }}
+  {{ form.name.label }} {{ form.name() }}
+  {{ form.email.label }} {{ form.email() }}
+  <br>
+  <button type="submit">Wyślij</button>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flash">
+        {% for category, msg in messages %}
+          <li class="{{ category }}">{{ msg }}</li>
+        {% endfor %}
+      </ul>
     {% endif %}
+  {% endwith %}
+</form>
 
-    <form method="post">
-        <label for="name">Imię:</label>
-        <input type="text" id="name" name="name" required><br><br>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-
-        <button type="submit">Wyślij</button>
-    </form>
+  </div>
 </body>
 </html>

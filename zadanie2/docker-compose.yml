@@ -1,33 +1,40 @@
-version: '3.9'
+version: '3.8'
 
 services:
   web:
     build: .
-    container_name: fastapi_app
+    container_name: flask_app
     ports:
-      - "8000:8000"
+      - "5000:5000"
     volumes:
       - .:/app
-      - ./instance:/app/instance 
-    env_file:
-      - .env
+      - ./instance:/instance 
+    environment:
+      - FLASK_ENV=development
     depends_on:
       - redis
 
-  worker:
+  celery:
     build: .
     container_name: celery_worker
-    command: celery -A celeryWorker.celery_app worker --loglevel=info
+    command: celery -A celeryWorker.celery worker --loglevel=info
     volumes:
       - .:/app
-      - ./instance:/app/instance 
-    env_file:
-      - .env
+      - ./instance:/instance 
     depends_on:
       - redis
 
   redis:
-    image: redis:7
+    image: redis:7-alpine
     container_name: redis
     ports:
       - "6379:6379"
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
+

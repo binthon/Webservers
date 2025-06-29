@@ -1,26 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-    <title>Formularz asynchroniczny</title>
-    <link rel="stylesheet" href="/static/style.css">
-
+  <meta charset="UTF-8">
+  <title>Formularz Async</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  <div class="form-box">
     <h1>Formularz Async</h1>
-    {% if queued %}
-        <p>Dane zostały wysłane do kolejki!</p>
-        <p>Imię: {{ name }}</p>
-        <p>Email: {{ email }}</p>
-    {% endif %}
 
-    <form method="post">
-        <label for="name">Imię:</label>
-        <input type="text" id="name" name="name" required><br><br>
+    <form id="async-form">
+      <label for="name">Imię:</label>
+      <input type="text" id="name" required>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
 
-        <button type="submit">Wyślij</button>
+      <button type="submit">Wyślij</button>
     </form>
+
+    <div id="result" style="margin-top: 15px; font-weight: bold;"></div>
+  </div>
+
+  <script>
+    document.getElementById("async-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      fetch("/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value
+        })
+      }).then(res => res.text())
+        .then(data => {
+          document.getElementById("result").textContent = data;
+        });
+    });
+  </script>
 </body>
 </html>

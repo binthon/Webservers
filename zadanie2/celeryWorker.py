@@ -1,26 +1,25 @@
 from celery import Celery
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from dotenv import load_dotenv
+from app import createApp, db
 from app.model import AsyncUser
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
-celery_app = Celery(
+flaskApp = createApp()
+
+celery = Celery(
     "worker",
-    broker=os.getenv("REDIS_URL"),
-    backend=os.getenv("REDIS_URL"),
+    broker=os.getenv('REDIS_URL'),
+    backend=os.getenv('REDIS_URL'),
 )
 
-engine = create_engine(os.getenv('DATABASE_CELERY'), echo=True, future=True)
-SessionLocal = sessionmaker(bind=engine)
+celery.conf.update(flaskApp.config)
 
-@celery_app.task(name="app.tasks.processData")
-def processData(name, email):
-    session = SessionLocal()
-    user = AsyncUser(name=name, email=email)
-    session.add(user)
-    session.commit()
-    session.close()
-    print(f"[Celery] Saved async user: {name} ({email})")
+@celery.task(name="app.tasks.saveUser")
+def saveUser(name, email):
+    with flaskApp.app_context():
+        new_user = AsyncUser(name=name, email=email)
+        db.session.add(new_user)
+        db.session.commit()
+        print(f"[CELERY] Zapisano: {name} – {email}")

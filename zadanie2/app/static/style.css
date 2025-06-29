@@ -1,61 +1,96 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f4f8;
-    margin: 0;
-    padding: 40px;
-    color: #333;
+  background: #f6f8fa;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.form-box {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 30px 40px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  max-width: 400px;
+  width: 100%;
 }
 
 h1 {
-    color: #2c3e50;
-    text-align: center;
-}
-
-form {
-    max-width: 400px;
-    margin: 40px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-top: 0;
+  font-size: 24px;
+  text-align: center;
+  color: #333;
 }
 
 label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
 }
 
-input[type="text"],
-input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+small {
+  color: red;
+  font-size: 13px;
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    transition: background-color 0.3s ease;
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+  background: #0056b3;
 }
 
-p {
-    text-align: center;
-    background: #dff0d8;
-    color: #3c763d;
-    padding: 10px;
-    border-radius: 6px;
+.flash {
+  margin-top: 15px;
+  padding: 10px;
+  background: #eafbe7;
+  color: #228b22;
+  border: 1px solid #b6e2b6;
+  border-radius: 5px;
+  list-style: none;
+}
+
+input[type="submit"] {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background: #0056b3;
+}
+
+.flash li.success {
+  color: green;
+}
+
+.flash li.error {
+  color: red;
 }

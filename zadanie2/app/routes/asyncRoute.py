@@ -1,21 +1,16 @@
-from fastapi import APIRouter, Request, Form
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-from celeryWorker import processData 
+from flask import Blueprint, render_template, request
 
-router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
+asyncRoute = Blueprint('async', __name__)
 
-@router.get("/", response_class=HTMLResponse)
-async def async_form_get(request: Request):
-    return templates.TemplateResponse("formAsync.html", {"request": request})
+@asyncRoute.route("/async")
+def async_form():
+    return render_template("formAsync.html")
 
-@router.post("/", response_class=HTMLResponse)
-async def async_form_post(request: Request, name: str = Form(...), email: str = Form(...)):
-    processData.delay(name, email)
-    return templates.TemplateResponse("formAsync.html", {
-        "request": request,
-        "queued": True,
-        "name": name,
-        "email": email
-    })
+@asyncRoute.route("/submit", methods=["POST"])
+def submitAsync():
+    from celeryWorker import saveUser
+    data = request.get_json()
+    name = data.get("name")
+    email = data.get("email")
+    saveUser.delay(name, email)
+    return "Dane zostały wysłane do przetworzenia w tle."

@@ -1,26 +1,25 @@
-from fastapi import APIRouter, Request, Form
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
+from flask import Blueprint, render_template, redirect, flash, request
+from app.model import SyncUser
+from app import db
+from app.forms.userForm import UserForm
 
-from app.model import SyncUser, SyncSessionLocal
 
-router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
+syncRoute = Blueprint('sync', __name__)
 
-@router.get("/", response_class=HTMLResponse)
-def form_get(request: Request):
-    return templates.TemplateResponse("formSync.html", {"request": request})
+@syncRoute.route("/sync", methods=["GET", "POST"])
+def submitSync():
+    form = UserForm()
+    if form.validate_on_submit():
+        user = SyncUser(name=form.name.data, email=form.email.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("Dane zostały zapisane.", "success")
+        return redirect("/sync")
+    
 
-@router.post("/", response_class=HTMLResponse)
-def form_post(request: Request, name: str = Form(...), email: str = Form(...)):
-    session = SyncSessionLocal()
-    new_user = SyncUser(name=name, email=email)
-    session.add(new_user)
-    session.commit()
-    session.close()
-    return templates.TemplateResponse("formSync.html", {
-        "request": request,
-        "success": True,
-        "name": name,
-        "email": email
-    })
+    if request.method == "POST":
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f"{field.capitalize()}: {error}", "error")
+    
+    return render_template("formSync.html", form=form)

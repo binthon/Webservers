@@ -1,21 +1,11 @@
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-from dotenv import load_dotenv
+from app import createApp, db
+import app.model
 
-from app.model import init_db
-from app.routes import syncRoute, asyncRoute
+app = createApp()
 
-load_dotenv()
+with app.app_context():
+    db.create_all()  
 
-app = FastAPI()
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
-templates = Jinja2Templates(directory="app/templates")
 
-app.include_router(syncRoute.router, prefix="/sync", tags=["sync"])
-app.include_router(asyncRoute.router, prefix="/async", tags=["async"])
-
-@app.on_event("startup")
-async def startup():
-    await init_db()
-
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
