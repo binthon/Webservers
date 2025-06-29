@@ -3,22 +3,20 @@ from app import createApp, db
 from app.model import AsyncUser
 import os
 from dotenv import load_dotenv
-load_dotenv()
 
+load_dotenv()
 
 flaskApp = createApp()
 
-
-celery_app = Celery(
+celery = Celery(
     "worker",
     broker=os.getenv('REDIS_URL'),
     backend=os.getenv('REDIS_URL'),
 )
 
-
 celery.conf.update(flaskApp.config)
 
-@celery.task
+@celery.task(name="app.tasks.saveUser")
 def saveUser(name, email):
     with flaskApp.app_context():
         new_user = AsyncUser(name=name, email=email)
