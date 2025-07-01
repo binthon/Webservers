@@ -9,8 +9,7 @@ def async_form():
 @asyncRoute.route("/", methods=["POST"])
 def submitAsync():
     from celeryWorker import saveUser
-    data = request.get_json()
-    name = data.get("name")
-    email = data.get("email")
+    name = request.form.get("name")
+    email = request.form.get("email")
     saveUser.delay(name, email)
-    return "Dane zostały wysłane do przetworzenia w tle."
+    return render_template("formAsync.html")

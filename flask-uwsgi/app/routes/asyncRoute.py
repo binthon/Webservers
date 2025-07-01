@@ -13,4 +13,4 @@ def submitAsync():
     name = data.get("name")
     email = data.get("email")
     saveUser.delay(name, email)
-    return "Dane zostały wysłane do przetworzenia w tle."
+    return render_template("formAsync.html")
