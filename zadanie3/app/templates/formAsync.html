@@ -6,18 +6,21 @@
 
 </head>
 <body>
-    <h1>Formularz Async</h1>
-    <form method="post">
-        <label for="name">Imię:</label>
-        <input type="text" id="name" name="name" required><br><br>
+  <div class="form-box">
+  <h1>Formularz Async</h1>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+  <form method="post">
+    <label for="name">Imię:</label>
+    <input type="text" id="name" name="name" required>
 
-        <button type="submit">Wyślij</button>
-        {% if queued %}
-        <p>Dane zostały wysłane do kolejki!</p>
-        {% endif %}
-    </form>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <input type="submit" value="Wyślij">
+
+    <p>Dane zostały wysłane do kolejki!</p>
+  </form>
+</div>
+
 </body>
 </html>
