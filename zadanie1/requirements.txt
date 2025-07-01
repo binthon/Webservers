@@ -11,4 +11,3 @@ flask_wtf
 python-dotenv
 email_validator
 uwsgi
-Hypercorn

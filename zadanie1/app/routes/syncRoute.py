@@ -6,7 +6,7 @@ from app.forms.userForm import UserForm
 
 syncRoute = Blueprint('sync', __name__)
 
-@syncRoute.route("/sync", methods=["GET", "POST"])
+@syncRoute.route("/", methods=["GET", "POST"])
 def submitSync():
     form = UserForm()
     if form.validate_on_submit():

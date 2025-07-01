@@ -2,11 +2,11 @@ from flask import Blueprint, render_template, request
 
 asyncRoute = Blueprint('async', __name__)
 
-@asyncRoute.route("/async")
+@asyncRoute.route("/")
 def async_form():
     return render_template("formAsync.html")
 
-@asyncRoute.route("/submit", methods=["POST"])
+@asyncRoute.route("/", methods=["POST"])
 def submitAsync():
     from celeryWorker import saveUser
     data = request.get_json()

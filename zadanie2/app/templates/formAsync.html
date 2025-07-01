@@ -25,7 +25,7 @@
   <script>
     document.getElementById("async-form").addEventListener("submit", function(e) {
       e.preventDefault();
-      fetch("/submit", {
+      fetch("/async", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

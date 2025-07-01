@@ -4,8 +4,9 @@ import os
 app = createApp()
 
 with app.app_context():
-    if not (os.path.exists("instance/sync.db") and os.path.exists("instance/async.db")):
-        db.create_all()  
+    if not os.path.exists("instance/sync.db"):
+        db.create_all()
+
 
 
 if __name__ == "__main__":

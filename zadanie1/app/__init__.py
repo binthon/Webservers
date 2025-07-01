@@ -18,8 +18,9 @@ def createApp():
     db.init_app(app)
     from app.routes.syncRoute import syncRoute
     from app.routes.asyncRoute import asyncRoute
-    app.register_blueprint(syncRoute)
-    app.register_blueprint(asyncRoute)
+    app.register_blueprint(syncRoute, url_prefix="/sync")
+    app.register_blueprint(asyncRoute, url_prefix="/async")
+
 
     return app
 
