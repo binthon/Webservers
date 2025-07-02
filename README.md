@@ -34,7 +34,7 @@ Implementacja systemu formularzy **synchronicznych i asynchronicznych** z zapisa
 
 ## Struktura projektu
 
-Niektóre pliki zależnie od konfiguracji 
+Występowanie niektórych plików jest zależne od konfiguracji 
 
 ```
 .
@@ -124,14 +124,14 @@ keep_alive_timeout = 5
 
 ## Uruchomienie 
 
-Każda konfiguracje można uruchomić za pomocą pliku docker compose:
+Każdą konfiguracje można uruchomić za pomocą pliku `docker-compose.yml`, powstają następujące kontenery:
 1. Flask_app lub FastAPI_app
 2. Nginx
 3. Redis
 4. Celery
 
 ```bash
-docker-compose up --build # docker compose up --build w zależności od docker compose
+docker compose up --build # docker-compose up --build -> w zależności od wersji - Dockerem (>= 20.10) domyślnie działa docker compose
 ```
 
 ---
