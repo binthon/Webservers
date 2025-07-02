@@ -1,25 +1,6 @@
-# Webservers
-## zadanie1
-### sync test
-https://bit.ly/4lyo2PF
-### async test
-https://bit.ly/3ZZ0eMH
+# Formularze Sync & Async z Celery, Redis, SQLite, Nginx
 
-## zadanie2
-### sync test
-https://bit.ly/44c4QBM
-### async test
-https://bit.ly/4kkvEVg
-
-## zadanie3
-### sync test
-https://bit.ly/40zJAU2
-### async test
-https://bit.ly/3InFckM
-
-# 🧠 Formularze Sync & Async z Celery, Redis, SQLite, Nginx
-
-Ten projekt implementuje system formularzy **synchronicznych i asynchronicznych** z zapisami do bazy danych SQLite oraz obsługą kolejek Celery, z trzema różnymi konfiguracjami:
+Implementacja systemu formularzy **synchronicznych i asynchronicznych** z zapisami do bazy danych SQLite oraz obsługą kolejek Celery (asyc), z trzema różnymi konfiguracjami:
 
 1. **Flask + uWSGI + Nginx**
 2. **Flask + Hypercorn (ASGI) + Nginx**
@@ -27,7 +8,7 @@ Ten projekt implementuje system formularzy **synchronicznych i asynchronicznych*
 
 ---
 
-## ⚙️ Funkcjonalność (wspólna dla wszystkich konfiguracji)
+## Funkcjonalność (wspólna dla wszystkich konfiguracji)
 
 | Endpoint  | Opis                                                                  |
 | --------- | --------------------------------------------------------------------- |
@@ -38,7 +19,7 @@ Ten projekt implementuje system formularzy **synchronicznych i asynchronicznych*
 
 ---
 
-## 📦 Technologie
+## Technologie
 
 | Komponent                   | Opis                                        |
 | --------------------------- | ------------------------------------------- |
@@ -51,12 +32,52 @@ Ten projekt implementuje system formularzy **synchronicznych i asynchronicznych*
 
 ---
 
-## 🚀 Konfiguracje
+## Struktura projektu
 
-### ✅ 1. Flask + **uWSGI** + Nginx
+Niektóre pliki zależnie od konfiguracji 
+
+```
+.
+├── app/
+│   ├── forms/ # pliki konfiguracji formularza
+│   ├── routes/ # pliki odpowiedzialne za zachowanie endpointów
+│   ├── templates/ # pliki html
+│   ├── static/ # plik loader oraz css
+│   ├── model.py # pliki konfiguracji modelów baz danych
+│   └── __init__.py # dla konfiguracji Flask
+├── instance/
+│   └── sync.db, async.db
+├── main.py # główny plik
+├── celeryWorker.py  # obsługa celery
+├── Dockerfile # konfiguracja obrazu flask_app lub fastapi_app
+├── docker-compose.yml # plik konfiguracji środowiska 
+├── .env 
+
+```
+
+---
+## Zmienne środowiskowe (przykład)
+
+```env
+FLASK_ENV=development
+SECRET_KEY=supertajnehaslo # można zaimpelentować przechowywanie i odczyt hashu np.: sha256
+
+DATABASE_SYNC=sqlite:////instance/sync.db
+DATABASE_ASYNC=sqlite:////instance/async.db # (dla FASTAPI DATABASE_ASYNC=sqlite+aiosqlite:////instance/async.db)
+REDIS_URL=redis://redis:6379/0
+```
+---
+## Testowanie
+
+Użyto narzędzia ze strony loader.io [LINK]((https://loader.io/)), testy wykonywano na 100 wejścia w ciągu 1 minuty.
+
+---
+
+## Konfiguracje
+
+### 1. Flask + **uWSGI** + Nginx
 
 * Wersja klasyczna (WSGI)
-* Synchroniczny backend
 * Konfiguracja serwera: `uwsgi.ini`
 
 ```ini
@@ -70,7 +91,11 @@ vacuum = true
 die-on-term = true
 ```
 
-### ✅ 2. Flask + **Hypercorn (ASGI)** + Nginx
+### Wyniki testów
+[SYNC](https://bit.ly/44c4QBM)
+[ASYNC](https://bit.ly/3ZZ0eMH)
+
+### 2. Flask + **Hypercorn (ASGI)** + Nginx
 
 * Flask uruchomiony w środowisku ASGI
 * Serwer: Hypercorn
@@ -83,66 +108,36 @@ timeout = 30
 keep_alive_timeout = 5
 ```
 
-### ✅ 3. FastAPI + **Uvicorn (ASGI)** + Nginx
+### Wyniki testów
+[SYNC](https://bit.ly/40zJAU2)
+[ASYNC](https://bit.ly/4kkvEVg)
 
-* W pełni asynchroniczna aplikacja
+### 3. FastAPI + **Uvicorn (ASGI)** + Nginx
+
 * Framework FastAPI
-* Serwer: Uvicorn (lub Hypercorn)
+* Serwer: Uvicorn
+
+### Wyniki testów
+[SYNC](https://bit.ly/4lyo2PF)
+[ASYNC](https://bit.ly/3InFckM)
 
 ---
 
-## 📁 Struktura projektu
+## Uruchomienie 
 
-```
-.
-├── app/
-│   ├── routes/
-│   ├── templates/
-│   ├── static/
-│   └── model.py
-├── instance/
-│   └── sync.db, async.db
-├── main.py
-├── celeryWorker.py
-├── Dockerfile
-├── docker-compose.yml
-├── .env
-├── uwsgi.ini
-└── hypercorn.toml
-```
-
----
-
-## 🔧 Zmienne środowiskowe (`.env`)
-
-```env
-FLASK_ENV=development
-SECRET_KEY=tajnehaslo
-
-DATABASE_SYNC=sqlite:////instance/sync.db
-DATABASE_ASYNC=sqlite+aiosqlite:////instance/async.db
-
-REDIS_URL=redis://redis:6379/0
-```
-
----
-
-## 💪 Uruchomienie (FastAPI domyślnie)
+Każda konfiguracje można uruchomić za pomocą pliku docker compose:
+1. Flask_app lub FastAPI_app
+2. Nginx
+3. Redis
+4. Celery
 
 ```bash
-docker-compose up --build
-```
-
-Lub inne konfiguracje:
-
-```bash
-docker-compose -f docker-compose-flask-uwsgi.yml up --build
-docker-compose -f docker-compose-flask-hypercorn.yml up --build
+docker-compose up --build # docker compose up --build w zależności od docker compose
 ```
 
 ---
 
-## 🔄 Jak działa aplikacja
+## Jak działają endpointy
 
 ### `/sync/`
 
@@ -158,73 +153,36 @@ docker-compose -f docker-compose-flask-hypercorn.yml up --build
 
 ---
 
-## 📂 `docker-compose.yml` (fragment)
 
-```yaml
-services:
-  web:
-    build: .
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./instance:/instance
-    env_file:
-      - .env
-    depends_on:
-      - redis
+## Nginx jako reverse proxy
 
-  worker:
-    build: .
-    command: celery -A celeryWorker.celery_app worker --loglevel=info
-    volumes:
-      - ./instance:/instance
-    env_file:
-      - .env
-    depends_on:
-      - redis
-
-  redis:
-    image: redis:7
-```
-
+Plik konfiguracyjny `nginx.conf` definiuje serwer HTTP, który działa jako **reverse proxy** dla aplikacji backendowej (Flask lub FastAPI). Przekazuje żądania HTTP z portu 80 do aplikacji uruchomionej na porcie 5000 lub 8000 w kontenerze `flask_app` lub `fastapi_app`.
+Konfiguracja posiada kilka parametrów, które mają zapewnić podstawową ochronę danych, posiada także konfiguracje logów oraz bezpieczeństwo nagłówków.
 ---
 
-## 🌐 Nginx jako reverse proxy
-
-```nginx
-server {
-    listen 80;
-
-    location / {
-        proxy_pass http://web:8000; # lub 5000 dla uWSGI
-        include proxy_params;
-    }
-}
-```
-
----
-
-## ✅ Testowanie
-
-1. Przejdź do `http://localhost/sync/` i `http://localhost/async/`
-2. Wypełnij formularz
-3. Sprawdź pliki w `instance/` (`sync.db`, `async.db`)
-4. Sprawdź logi `celery_worker`, by potwierdzić odbiór
-
----
-
-## 🧹 Komendy pomocnicze
+## Komendy dodatkowe
 
 ```bash
-docker-compose down -v
-docker exec -it fastapi_app sh
-sqlite3 /instance/sync.db
+docker exec -it fastapi_app sh # uruchomienie powłoki bash kontenera
+sqlite3 /instance/sync.db # operacje na bazie
+docker-compose down -v # zatrzymanie i usunięcie kontenerów + wolumenów 
+docker-compose down --remove-orphans
+docker-compose rm -f  # usuwanie kontenery 
+docker system prune -af  # usuwanie wszystkiech kontenery, sieci, cache
+docker-compose logs -f  # logi ze wszystkich usług
+docker-compose logs -f web # logi z aplikacji webowej
+docker ps -a  # pokazanie wszystkich kontenerów
+docker volume ls # lista wolumenów
+docker network ls # lista sieci
 ```
 
 ---
 
-## 📌 Uwagi końcowe
+## Uwagi końcowe i rzeczy do poprawy/dodania
 
-* SQLite nie nadaje się do produkcyjnego zapisu równoległego — używaj PostgreSQL lub MySQL.
-* Nie uruchamiaj procesów jako root (Celery ostrzega).
-* Nginx pozwala testować różne serwery aplikacji bez zmiany kodu.
+* SQLite nie nadaje się zbyt do tego. Lepiej już PostgreSQL
+* Celey powinno się używać nie jako root.
+* Należy zadbać o optymalizacje pod konkretny serwer aplikacyjny dodająć odpowienie parametry do Nginxa.
+* Dodanie certyfikacji HTTPS aby zapewnić szyfrowane połączenie.
+* Poprawa walidacji formularzy, np.: użycie pydatic
+* Dokładniejsze zbieranie logów: Grafana, Flower
