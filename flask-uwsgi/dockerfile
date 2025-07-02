@@ -13,4 +13,5 @@ ENV PYTHONUNBUFFERED 1
 
 EXPOSE 5000
 
+# wykorzystanie uwsgi do flask + uwsgi 
 CMD ["uwsgi", "--ini", "uwsgi.ini"]

@@ -1,16 +1,16 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect
+from app.forms.userForm import UserForm
 
 asyncRoute = Blueprint('async', __name__)
 
-@asyncRoute.route("/")
-def async_form():
-    return render_template("formAsync.html")
-
-@asyncRoute.route("/", methods=["POST"])
+@asyncRoute.route("/", methods=["GET", "POST"])
 def submitAsync():
-    from celeryWorker import saveUser
-    data = request.get_json()
-    name = data.get("name")
-    email = data.get("email")
-    saveUser.delay(name, email)
-    return render_template("formAsync.html")
+    from celeryWorker import saveUser  
+    form = UserForm()
+
+    if form.validate_on_submit():
+        saveUser.delay(form.name.data, form.email.data)
+        flash("Dane zostały zapisane.", "success")
+        return redirect(request.path)
+
+    return render_template("formAsync.html", form=form)

@@ -3,28 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Formularz Async</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="form-box">
     <h1>Formularz Async</h1>
 
-    <form method="POST" action="{{ url_for('async.submitAsync') }}">
-      <label for="name">Imię:</label>
-      <input type="text" id="name" name="name" required>
-
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      {{ form.name.label }} {{ form.name() }}
+      {{ form.email.label }} {{ form.email() }}
+      <br>
+      <br>
       <button type="submit">Wyślij</button>
-
-       {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="flash {{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flash">
+            {% for category, msg in messages %}
+              <li class="{{ category }}">{{ msg }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
     </form>
   </div>
 </body>

@@ -33,5 +33,4 @@ async def init_db():
     if asyncEngine is not None:
         async with asyncEngine.begin() as conn:
             await conn.run_sync(AsyncBase.metadata.create_all)
-
     SyncBase.metadata.create_all(bind=syncEngine)

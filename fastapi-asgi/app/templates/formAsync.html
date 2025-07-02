@@ -3,23 +3,25 @@
 <head>
     <title>Formularz asynchroniczny</title>
     <link rel="stylesheet" href="/static/style.css">
-
 </head>
 <body>
   <div class="form-box">
   <h1>Formularz Async</h1>
+    <form method="post">
 
-  <form method="post">
-    <label for="name">Imię:</label>
-    <input type="text" id="name" name="name" required>
+      <label for="name">Imię:</label>
+      <input type="text" id="name" name="name" required>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
 
-    <input type="submit" value="Wyślij">
+      <input type="submit" value="Wyślij">
 
-    <p>Dane zostały wysłane do kolejki!</p>
-  </form>
+      {% if success %}
+        <p>Dane zostały wysłane do kolejki</p>
+      {% endif %}
+
+    </form>
 </div>
 
 </body>

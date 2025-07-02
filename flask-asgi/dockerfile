@@ -13,4 +13,5 @@ ENV PYTHONUNBUFFERED 1
 
 EXPOSE 5000
 
+# wykorzystanie hypercorn do asgi w flask
 CMD ["hypercorn", "main:app", "-c", "hypercorn.toml"]

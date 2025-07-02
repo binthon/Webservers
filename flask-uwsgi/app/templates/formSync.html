@@ -10,22 +10,21 @@
     <h1>Formularz Sync</h1>
 
     <form method="POST">
-  {{ form.hidden_tag() }}
-  {{ form.name.label }} {{ form.name() }}
-  {{ form.email.label }} {{ form.email() }}
-  <br>
-  <button type="submit">Wyślij</button>
-
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <ul class="flash">
-        {% for category, msg in messages %}
-          <li class="{{ category }}">{{ msg }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
-</form>
+      {{ form.hidden_tag() }}
+      {{ form.name.label }} {{ form.name() }}
+      {{ form.email.label }} {{ form.email() }}
+      <br>
+      <button type="submit">Wyślij</button>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flash">
+            {% for category, msg in messages %}
+              <li class="{{ category }}">{{ msg }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+    </form>
 
   </div>
 </body>

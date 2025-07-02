@@ -1,2 +1,4 @@
-bind = ["0.0.0.0:5000"]
-workers = 4
+bind = ["0.0.0.0:5000"] # adres i port, na którym Hypercorn będzie nasłuchiwać
+workers = 4 # liczba workerów obsługujących aplikację
+timeout = 30 # max czas obsługi żądania 
+keep_alive_timeout = 5 # czas  przez jaki połączenie HTTP jest  utrzymane

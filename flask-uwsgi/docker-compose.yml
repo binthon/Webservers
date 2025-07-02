@@ -4,11 +4,10 @@ services:
   web:
     build: .
     container_name: flask_app
+    volumes:
+      - ./instance:/instance 
     ports:
       - "5000"
-    volumes:
-      - .:/app
-      - ./instance:/instance 
     environment:
       - FLASK_ENV=development
     depends_on:
@@ -19,17 +18,16 @@ services:
     container_name: celery_worker
     command: celery -A celeryWorker.celery worker --loglevel=info
     volumes:
-      - .:/app
-      - ./instance:/instance 
+      - ./instance:/instance
     depends_on:
       - redis
-
+      
   redis:
     image: redis:7-alpine
     container_name: redis
     ports:
       - "6379"
-      
+
   nginx:
     image: nginx:alpine
     container_name: nginx

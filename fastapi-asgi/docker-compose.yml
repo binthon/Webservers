@@ -7,8 +7,7 @@ services:
     ports:
       - "8000"
     volumes:
-      - .:/app
-      - ./instance:/instance 
+      - ./instance:/instance
     env_file:
       - .env
     depends_on:
@@ -19,8 +18,7 @@ services:
     container_name: celery_worker
     command: celery -A celeryWorker.celery_app worker --loglevel=info
     volumes:
-      - .:/app
-      - ./instance:/instance 
+      - ./instance:/instance
     env_file:
       - .env
     depends_on:
