@@ -163,8 +163,8 @@ docker-compose up --build # docker compose up --build w zależności od docker c
 docker exec -it fastapi_app sh # uruchomienie powłoki bash kontenera
 sqlite3 /instance/sync.db # operacje na bazie
 docker-compose down -v # zatrzymanie i usunięcie kontenerów + wolumenów 
-docker-compose down --remove-orphans
-docker-compose rm -f  # usuwanie kontenery 
+docker-compose down --remove-orphans # zatrzymania i usunięcia kontenerów wraz z pozostałoścami po poprzednim uruchomieniu docker-compose.yml
+docker-compose rm -f  # usuwanie kontenerów (force)
 docker system prune -af  # usuwanie wszystkiech kontenery, sieci, cache
 docker-compose logs -f  # logi ze wszystkich usług
 docker-compose logs -f web # logi z aplikacji webowej
