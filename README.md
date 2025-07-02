@@ -177,9 +177,9 @@ docker network ls # lista sieci
 
 ## Uwagi końcowe i rzeczy do poprawy/dodania
 
-* SQLite nie nadaje się zbyt do tego. Lepiej już PostgreSQL
-* Celey powinno się używać nie jako root.
-* Należy zadbać o optymalizacje pod konkretny serwer aplikacyjny dodająć odpowienie parametry do Nginxa.
-* Dodanie certyfikacji HTTPS aby zapewnić szyfrowane połączenie.
-* Poprawa walidacji formularzy, np.: użycie pydatic
-* Dokładniejsze zbieranie logów: Grafana, Flower
+* SQLite nie nadaje się zbyt ze względu na zapis plikowy (dobry do testowania). W momencie wyboru narzędzi lepiej będzie spisywała się baza Postgresql, MySQL lub jakiś rodzaj bazy NoSQL'owej.
+* Celey powinno się używać nie jako użytkownik root. Należy skonfigurować użytkowniaka odpowiedzialnego za to narzędzie.
+* Należy zadbać o optymalizacje pod konkretny serwer aplikacyjny, dodająć odpowiednie parametry do konfiguracji Nginxa.
+* Dodanie certyfikacji HTTPS, aby zapewnić szyfrowane połączenie.
+* Poprawa walidacji formularzy, np.: użycie pydatic.
+* Dokładniejsze zbieranie logów: Grafana, Flower.
