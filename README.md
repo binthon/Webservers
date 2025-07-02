@@ -68,8 +68,7 @@ REDIS_URL=redis://redis:6379/0
 ```
 ---
 ## Testowanie
-
-Użyto narzędzia ze strony loader.io [LINK]((https://loader.io/)), testy wykonywano na 100 wejścia w ciągu 1 minuty.
+### Użyto narzędzia ze strony loader.io [LINK]((https://loader.io/)), testy wykonywano na 100 wejścia w ciągu 1 minuty.
 
 ---
 
@@ -155,9 +154,7 @@ docker-compose up --build # docker compose up --build w zależności od docker c
 
 
 ## Nginx jako reverse proxy
-
-Plik konfiguracyjny `nginx.conf` definiuje serwer HTTP, który działa jako **reverse proxy** dla aplikacji backendowej (Flask lub FastAPI). Przekazuje żądania HTTP z portu 80 do aplikacji uruchomionej na porcie 5000 lub 8000 w kontenerze `flask_app` lub `fastapi_app`.
-Konfiguracja posiada kilka parametrów, które mają zapewnić podstawową ochronę danych, posiada także konfiguracje logów oraz bezpieczeństwo nagłówków.
+### Plik konfiguracyjny `nginx.conf` definiuje serwer HTTP, który działa jako **reverse proxy** dla aplikacji backendowej (Flask lub FastAPI). Przekazuje żądania HTTP z portu 80 do aplikacji uruchomionej na porcie 5000 lub 8000 w kontenerze `flask_app` lub `fastapi_app`. Konfiguracja posiada kilka parametrów, które mają zapewnić podstawową ochronę danych, posiada także konfiguracje logów oraz bezpieczeństwo nagłówków.
 ---
 
 ## Komendy dodatkowe
