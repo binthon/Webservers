@@ -15,7 +15,7 @@ Implementacja systemu formularzy **synchronicznych i asynchronicznych** z zapisa
 | `/sync/`  | Formularz synchroniczny: zapisuje dane bezpośrednio do `sync.db`      |
 | `/async/` | Formularz asynchroniczny: dane trafiają do kolejki Celery przez Redis |
 
-**Każda wersja korzysta z tej samej logiki aplikacyjnej** — zmienia się tylko stos serwerowy.
+**Każda wersja korzysta z tej samej logiki aplikacyjnej** — zmienia się tylko stos narzędzi.
 
 ---
 
@@ -29,6 +29,7 @@ Implementacja systemu formularzy **synchronicznych i asynchronicznych** z zapisa
 | SQLite                      | Baza danych lokalna (`sync.db`, `async.db`) |
 | Nginx                       | Reverse proxy                               |
 | uWSGI / Hypercorn / Uvicorn | Serwery aplikacyjne                         |
+| HTML/CSS                    | Frontend                      |
 
 ---
 
